@@ -3,10 +3,10 @@
     pg007_sec001: { label: 'pg007_n0010', prompt: 'pg007_n0012' },
     pg017_sec001: { label: 'pg017_n0011', prompt: 'pg017_n0012' },
     pg022_sec001: { label: 'pg022_n0012', prompt: 'pg022_n0013' },
-    pg027_sec001: { label: 'pg027_n0012', prompt: 'pg027_n0014' },
+    pg027_sec001: { label: 'pg027_n0012', prompt: 'pg027_n0014', oldIcon: 'pg027_im003_crop_v1_crop1' },
     pg037_sec001: { label: 'pg037_n0014', prompt: 'pg037_n0015' },
     pg048_sec001: { label: 'pg048_n0012', prompt: 'pg048_n0015' },
-    pg058_sec001: { label: 'pg058_n0010', prompt: 'pg058_n0013' },
+    pg058_sec001: { label: 'pg058_n0010', prompt: 'pg058_n0013', oldIcon: 'pg058_im003_crop1' },
     pg063_sec001: { label: 'pg063_n0012', prompt: 'pg063_n0013' },
     pg070_sec001: { label: 'pg070_n0012', prompt: 'pg070_n0013' },
     pg076_sec001: { label: 'pg076_n0011', prompt: 'pg076_n0012' },
@@ -21,6 +21,7 @@
   const label = section.querySelector(`[data-id="${config.label}"]`);
   const promptText = section.querySelector(`[data-id="${config.prompt}"]`);
   if (!label || !promptText) return;
+  if (config.oldIcon) section.querySelector(`[data-id="${config.oldIcon}"]`)?.remove();
 
   let prompt = promptText;
   while (prompt !== section && !/pink|rose/.test(prompt.className || '')) {

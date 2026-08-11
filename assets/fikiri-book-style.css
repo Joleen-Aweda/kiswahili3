@@ -3,6 +3,7 @@
   z-index: 10;
   margin: 1.35rem auto 1.65rem;
   width: 100%;
+  max-width: 64rem;
 }
 
 .book-fikiri-heading {
@@ -57,7 +58,9 @@
   border-radius: 0.9rem;
   background:
     radial-gradient(circle at 5px 0, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) top left / 10px 6px repeat-x,
-    radial-gradient(circle at 5px 6px, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) bottom left / 10px 6px repeat-x;
+    radial-gradient(circle at 5px 6px, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) bottom left / 10px 6px repeat-x,
+    radial-gradient(circle at 0 5px, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) top left / 6px 10px repeat-y,
+    radial-gradient(circle at 6px 5px, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) top right / 6px 10px repeat-y;
 }
 
 .book-fikiri-prompt,
@@ -82,6 +85,33 @@
 .book-fikiri-prompt ul {
   margin: 0 !important;
   padding-left: 1.7rem !important;
+}
+
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0012"] {
+  font-style: italic !important;
+  font-weight: 800 !important;
+}
+
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0014"],
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0015"],
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0016"],
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0017"] {
+  font-style: italic !important;
+  font-weight: 400 !important;
+}
+
+[data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0012"] {
+  font-size: 1.35rem !important;
+  font-style: italic !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+}
+
+[data-section-id="pg007_sec001"] .book-fikiri-prompt > div:last-child [data-id] {
+  font-size: 1.2rem !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  line-height: 1.55 !important;
 }
 
 @media (max-width: 640px) {
@@ -114,5 +144,10 @@
   .book-fikiri-prompt li {
     font-size: 1rem !important;
     line-height: 1.4 !important;
+  }
+
+  [data-section-id="pg007_sec001"] .book-fikiri-prompt [data-id="pg007_n0012"],
+  [data-section-id="pg007_sec001"] .book-fikiri-prompt > div:last-child [data-id] {
+    font-size: 1rem !important;
   }
 }
