@@ -38,6 +38,19 @@ MONTHS = {
     11: "Novemba", 12: "Desemba",
 }
 
+SWAHILI_LETTER_NAMES = {
+    "a": "a", "b": "be", "c": "che", "d": "de", "e": "e",
+    "f": "fe", "g": "ge", "h": "ha", "i": "i", "j": "je",
+    "k": "ka", "l": "le", "m": "me", "n": "ne", "o": "o",
+    "p": "pe", "q": "ku", "r": "re", "s": "se", "t": "te",
+    "u": "u", "v": "ve", "w": "we", "x": "ksi", "y": "ye",
+    "z": "ze",
+}
+
+ROMAN_VALUES = {
+    "i": 1, "v": 5, "x": 10, "l": 50, "c": 100, "d": 500, "m": 1000,
+}
+
 
 def number_to_swahili(value: int) -> str:
     if value < 0:
@@ -67,6 +80,36 @@ def year_in_swahili(value: int) -> str:
     return number_to_swahili(value)
 
 
+def roman_to_integer(value: str) -> int:
+    total = 0
+    previous = 0
+    for character in reversed(value.lower()):
+        current = ROMAN_VALUES[character]
+        total += -current if current < previous else current
+        previous = max(previous, current)
+    return total
+
+
+def normalize_number_and_letter_markers(text: str) -> str:
+    """Expand textbook list markers for natural Tanzanian Swahili narration."""
+    text = re.sub(
+        r"^\s*\(?([ivx]+)\)?[.)]?(?:\s+|$)",
+        lambda match: f"Namba {number_to_swahili(roman_to_integer(match.group(1)))}. ",
+        text,
+    )
+    text = re.sub(
+        r"^\s*\(?([A-Za-z])\)?[.)]\s*",
+        lambda match: f"Herufi {SWAHILI_LETTER_NAMES[match.group(1).lower()]}. ",
+        text,
+    )
+    text = re.sub(
+        r"(?<![\w])(?<!Herufi )(?<!herufi )([A-Za-z])(?![\w])",
+        lambda match: f"herufi {SWAHILI_LETTER_NAMES[match.group(1).lower()]}",
+        text,
+    )
+    return text
+
+
 def spoken_text(text_id: str, visible: str) -> str:
     """Return narration text without changing the visible textbook content."""
     text = str(visible).strip()
@@ -92,6 +135,7 @@ def spoken_text(text_id: str, visible: str) -> str:
     text = re.sub(r"\.indd\b", "", text, flags=re.I)
     text = re.sub(r"\[\[blank[^]]*\]\]", " nafasi wazi ", text, flags=re.I)
     text = re.sub(r"_{3,}|\.{4,}|…{2,}", " ", text, flags=re.I)
+    text = normalize_number_and_letter_markers(text)
 
     # Dates and clock times are expanded before generic slash/operator handling.
     def date_replacement(match: re.Match[str]) -> str:
@@ -169,6 +213,21 @@ def load_jobs() -> tuple[dict[str, list[Path]], dict[str, str]]:
 async def run(args: argparse.Namespace) -> None:
     jobs, mappings = load_jobs()
     items = sorted(jobs.items())
+    if args.numbers_and_letters_only:
+        texts = json.loads(
+            (ROOT / "content" / "i18n" / SOURCE_LANGUAGE / "texts.json").read_text(encoding="utf-8")
+        )
+        selected = {
+            text_id for text_id, visible in texts.items()
+            if re.search(r"\d", str(visible))
+            or re.match(r"^\s*\(?[ivx]+\)?[.)]?(?:\s+|$)", str(visible))
+            or re.match(r"^\s*\(?[A-Za-z]\)?[.)]", str(visible))
+            or re.search(r"(?<![\w])[A-Za-z](?![\w])", str(visible))
+        }
+        items = [
+            (speech, destinations) for speech, destinations in items
+            if any(destination.stem in selected for destination in destinations)
+        ]
     if args.filename:
         selected = set(args.filename)
         items = [
@@ -239,6 +298,11 @@ def main() -> None:
     parser.add_argument("--rate", default="-5%")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--filename", action="append", help="generate a specific audio filename stem")
+    parser.add_argument(
+        "--numbers-and-letters-only",
+        action="store_true",
+        help="regenerate only tracks containing digits, Roman numerals, or isolated letters",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--show", type=int, default=100)
     asyncio.run(run(parser.parse_args()))

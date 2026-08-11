@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg027_sec001" />
-    <meta name="page-section-id" content="50" />
+    <meta name="page-section-id" content="46" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg027_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -61,12 +67,12 @@
 
     <p class="relative z-10 max-w-5xl text-left text-2xl leading-relaxed text-gray-900 max-lg:text-xl max-sm:text-lg">
       <span data-id="pg027_n0031">Hapo zama za kale, palikuwa na marafiki wawili.</span><span> </span>
-      <span data-id="pg027_n0032">Marafiki hao ni <strong>Ndovu</strong> na <strong>Mbogo</strong>.</span><span> </span>
+      <span data-id="pg027_n0032">Marafiki hao ni <strong data-vocabulary-term="Ndovu">Ndovu</strong> na <strong data-vocabulary-term="Mbogo">Mbogo</strong>.</span><span> </span>
       <span data-id="pg027_n0033">Marafiki hao walipendana sana.</span><span> </span>
       <span data-id="pg027_n0034">Walishirikiana katika shughuli zao za kila siku.</span><span> </span>
-      <span data-id="pg027_n0035">Siku moja, Ndovu alipanga safari ya kumtembelea <strong>nyanya</strong> yake kijiji cha jirani.</span><span> </span>
-      <span data-id="pg027_n0036">Ndovu alikwenda <strong>gulioni</strong> na kumnunulia nyanya yake zawadi.</span><span> </span>
-      <span data-id="pg027_n0037">Zawadi hiyo ilikuwa ni <strong>dagaa</strong> na <strong>jamvi</strong>.</span><span> </span>
+      <span data-id="pg027_n0035">Siku moja, Ndovu alipanga safari ya kumtembelea <strong data-vocabulary-term="nyanya">nyanya</strong> yake kijiji cha jirani.</span><span> </span>
+      <span data-id="pg027_n0036">Ndovu alikwenda <strong data-vocabulary-term="gulioni">gulioni</strong> na kumnunulia nyanya yake zawadi.</span><span> </span>
+      <span data-id="pg027_n0037">Zawadi hiyo ilikuwa ni <strong data-vocabulary-term="dagaa">dagaa</strong> na <strong data-vocabulary-term="jamvi">jamvi</strong>.</span><span> </span>
       <span data-id="pg027_n0038">Mbogo naye alimchumia maembe Ndovu kwa ajili ya zawadi.</span><span> </span>
       <span data-id="pg027_n0039">Siku ya safari,</span>
     </p>
@@ -80,6 +86,30 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = {
+          pg027_n0032: ["Ndovu", "Mbogo"],
+          pg027_n0035: ["nyanya"],
+          pg027_n0036: ["gulioni"],
+          pg027_n0037: ["dagaa", "jamvi"]
+        };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) {
+              html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            }
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

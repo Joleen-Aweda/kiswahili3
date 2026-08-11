@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg073_sec002" />
-    <meta name="page-section-id" content="137" />
+    <meta name="page-section-id" content="126" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
@@ -209,10 +209,27 @@
     </main>
 
     <script type="text/javascript">
-        window.correctAnswers = JSON.parse('{"item-1":"false","item-2":"true","item-3":"true","item-4":"false","item-5":"true","item-6":"false","item-7":"true","item-8":"false"}');
+        window.correctAnswers = JSON.parse('{"item-1":"HAPANA","item-2":"NDIYO","item-3":"NDIYO","item-4":"HAPANA","item-5":"NDIYO","item-6":"HAPANA","item-7":"NDIYO","item-8":"HAPANA"}');
     </script>
     <div class="relative z-50" id="interface-container"></div>
     <div class="relative z-50" id="nav-container"></div>
+    <script>
+      document.querySelectorAll('[data-section-id="pg073_sec002"] fieldset').forEach((fieldset, index) => {
+        const row = fieldset.querySelector('legend > div');
+        const choices = row?.querySelector('.inline-flex');
+        if (!row || !choices) return;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = `question${index + 1}`;
+        input.name = `question${index + 1}`;
+        input.tabIndex = 0;
+        input.dataset.activityItem = `item-${index + 1}`;
+        input.setAttribute('aria-label', `Andika NDIYO au HAPANA kwa swali la ${index + 1}`);
+        input.className = 'w-32 border-b-2 border-neutral-500 bg-transparent px-2 py-1 text-center uppercase outline-none focus:border-orange-500 max-sm:mt-2 max-sm:w-28';
+        choices.replaceWith(input);
+      });
+    </script>
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>

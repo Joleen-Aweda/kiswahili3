@@ -17,6 +17,51 @@
         color: #292929;
         font-family: Arial, Helvetica, sans-serif;
       }
+      .cover-title-block {
+        width: min(92vw, 760px);
+        margin: 0 auto 34px;
+        text-align: center;
+        color: #2e46a0;
+      }
+      .cover-book-title {
+        font-size: clamp(48px, 8vw, 88px);
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -.035em;
+      }
+      .cover-ornament {
+        display: flex;
+        align-items: center;
+        width: min(78vw, 520px);
+        margin: 30px auto 28px;
+        color: #2e46a0;
+      }
+      .cover-ornament::before,
+      .cover-ornament::after {
+        content: "";
+        height: 2px;
+        flex: 1;
+        background: currentColor;
+      }
+      .cover-ornament-mark {
+        margin: 0 10px;
+        font-size: 28px;
+        line-height: 1;
+      }
+      .cover-student-book {
+        font-size: clamp(23px, 4vw, 38px);
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.2;
+      }
+      .cover-grade {
+        margin-top: 14px;
+        font-size: clamp(30px, 5vw, 48px);
+        font-style: italic;
+        font-weight: 800;
+        line-height: 1.15;
+      }
       .certificate-original {
         display: block;
         width: 100%;
@@ -41,6 +86,10 @@
         border: 0;
       }
       @media (max-width: 480px) {
+        .cover-title-block { width: 94vw; margin-bottom: 22px; }
+        .cover-ornament { margin-top: 18px; margin-bottom: 18px; }
+        .cover-ornament-mark { font-size: 20px; }
+        .cover-grade { margin-top: 9px; }
         .certificate-page { width: 94vw; }
         .certificate-publisher { padding-top: 6px; }
       }
@@ -51,6 +100,12 @@
     <main class="w-full">
       <div id="content" class="container mx-auto bg-white px-6 py-6 max-lg:px-5 max-sm:px-1 max-sm:py-1 opacity-0">
         <section data-section-type="front_cover" data-section-id="pg001_sec001" class="bg-white">
+          <header class="cover-title-block">
+            <h1 data-id="pg001_n0002" class="cover-book-title">Kiswahili</h1>
+            <div class="cover-ornament" aria-hidden="true"><span class="cover-ornament-mark">⚜</span></div>
+            <h2 data-id="pg001_n0004" class="cover-student-book">Kitabu cha Mwanafunzi</h2>
+            <h3 data-id="pg001_n0005" class="cover-grade">Darasa la Tatu</h3>
+          </header>
           <div class="certificate-page">
             <img
               class="certificate-original"

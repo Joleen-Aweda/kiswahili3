@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg076_sec001" />
-    <meta name="page-section-id" content="144" />
+    <meta name="page-section-id" content="133" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg076_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -69,7 +75,7 @@
       </p>
 
       <p class="mb-12 max-w-4xl text-[1.05rem] leading-[1.7] text-[#2d2d2d] max-lg:text-[1rem] max-sm:text-[0.96rem] max-sm:leading-[1.65]">
-        <span data-id="pg076_n0024">Tulipita Dodoma mpaka Tabora.</span> <span data-id="pg076_n0025">Kwa kipindi chote cha safari, gari letu lilikuwa shwari kabisa.</span> <span data-id="pg076_n0026">Tulikuwa tunaenda kwenye mahafali ya vijana waliokuwa wanahitimu mafunzo mafupi ya Jeshi la Kujenga Taifa.</span> <span data-id="pg076_n0027">Usilolijua ni kama usiku wa giza.</span> <span data-id="pg076_n0028">Kumbe ilikuwa siku ya balaa, tena ya bahati mbaya kwetu.</span>
+        <span data-id="pg076_n0024">Tulipita Dodoma mpaka Tabora.</span> <span data-id="pg076_n0025">Kwa kipindi chote cha safari, gari letu lilikuwa shwari kabisa.</span> <span data-id="pg076_n0026">Tulikuwa tunaenda kwenye <strong data-vocabulary-term="mahafali">mahafali</strong> ya vijana waliokuwa wanahitimu mafunzo mafupi ya Jeshi la Kujenga Taifa.</span> <span data-id="pg076_n0027">Usilolijua ni kama usiku wa giza.</span> <span data-id="pg076_n0028">Kumbe ilikuwa siku ya <strong data-vocabulary-term="balaa">balaa</strong>, tena ya bahati mbaya kwetu.</span>
       </p>
 
     </div>
@@ -82,6 +88,23 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = { pg076_n0026: ["mahafali"], pg076_n0028: ["balaa"] };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

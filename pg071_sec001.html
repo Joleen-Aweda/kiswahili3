@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg071_sec001" />
-    <meta name="page-section-id" content="133" />
+    <meta name="page-section-id" content="122" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg071_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -26,11 +32,11 @@
     </p>
 
     <p class="mb-10 text-left font-normal text-stone-800 text-[1rem] leading-[2rem] max-lg:text-[0.98rem] max-lg:leading-[1.9rem] max-sm:mb-8 max-sm:text-[0.78rem] max-sm:leading-[1.45rem]">
-      <span data-id="pg071_n0010">Fikiri ni mwanafunzi mtiifu.</span> <span data-id="pg071_n0011">Hutekeleza maelekezo anayopewa na wazazi au walezi na hata wanafunzi wenzake.</span> <span data-id="pg071_n0012">Anapokuwa shuleni huwaheshimu walimu na viongozi wote.</span> <span data-id="pg071_n0013">Fikiri ni mfano bora wa kuigwa.</span>
+      <span data-id="pg071_n0010">Fikiri ni mwanafunzi m<strong data-vocabulary-term="tii">tii</strong>fu.</span> <span data-id="pg071_n0011">Hutekeleza maelekezo anayopewa na wazazi au walezi na hata wanafunzi wenzake.</span> <span data-id="pg071_n0012">Anapokuwa shuleni huwa<strong data-vocabulary-term="heshimu">heshimu</strong> walimu na viongozi wote.</span> <span data-id="pg071_n0013">Fikiri ni mfano bora wa ku<strong data-vocabulary-term="igwa">igwa</strong>.</span>
     </p>
 
     <p class="mb-2 text-left font-normal text-stone-800 text-[1rem] leading-[2rem] max-lg:text-[0.98rem] max-lg:leading-[1.9rem] max-sm:text-[0.78rem] max-sm:leading-[1.45rem]">
-      <span data-id="pg071_n0015">Siku moja, Fikiri alikuwa anatoka shuleni kuelekea nyumbani.</span> <span data-id="pg071_n0016">Njiani alikutana na bibi mmoja.</span> <span data-id="pg071_n0017">Bibi alikuwa amebeba kuni kichwani na kikapu mkononi.</span> <span data-id="pg071_n0018">Fikiri alimsalimia kisha akamwambia, &#x201c;Bibi naomba nikusaidie kubeba kikapu.&#x201d;</span>
+      <span data-id="pg071_n0015">Siku moja, Fikiri alikuwa anatoka shuleni kuelekea nyumbani.</span> <span data-id="pg071_n0016">Njiani alikutana na bibi mmoja.</span> <span data-id="pg071_n0017">Bibi alikuwa amebeba kuni kichwani na kikapu mkononi.</span> <span data-id="pg071_n0018">Fikiri alimsalimia kisha akamwambia, &#x201c;Bibi naomba nikusaidie kubeba <strong data-vocabulary-term="kikapu">kikapu</strong>.&#x201d;</span>
     </p>
   </section>
 </div>
@@ -41,6 +47,28 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = {
+          pg071_n0010: ["tii"],
+          pg071_n0012: ["heshimu"],
+          pg071_n0013: ["igwa"],
+          pg071_n0018: ["kikapu"]
+        };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

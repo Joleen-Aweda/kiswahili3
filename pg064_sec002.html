@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg064_sec002" />
-    <meta name="page-section-id" content="119" />
+    <meta name="page-section-id" content="110" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg064_sec002"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -29,7 +35,7 @@
 
     <p class="text-left text-[2rem] leading-[1.7] text-slate-800 max-lg:text-[1.65rem] max-sm:text-xl">
       <span data-id="pg064_n0047">Siku moja mwalimu wa somo la Kiswahili alisema, &#x201c;Leo tutajifunza jinsi ya kutafuta maana za maneno kwa kutumia kamusi.&#x201d;</span>
-      <span data-id="pg064_n0048">Alisema kuwa tutaanza na neno adabu.</span>
+      <span data-id="pg064_n0048">Alisema kuwa tutaanza na neno <strong data-vocabulary-term="adabu">adabu</strong>.</span>
       <span data-id="pg064_n0049">Mwalimu alitupanga katika makundi, kisha alitupatia kamusi moja kila kundi.</span>
     </p>
   </section>
@@ -41,6 +47,18 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const restoreVocabularyEmphasis = () => {
+          const element = document.querySelector('[data-id="pg064_n0048"]');
+          if (!element || element.querySelector('[data-vocabulary-term]')) return;
+          element.innerHTML = element.textContent.replace('adabu', '<strong data-vocabulary-term="adabu">adabu</strong>');
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

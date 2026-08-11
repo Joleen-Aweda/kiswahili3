@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg055_sec001" />
-    <meta name="page-section-id" content="99" />
+    <meta name="page-section-id" content="92" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg055_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -31,13 +37,13 @@
 
     <div class="mb-5 rounded-[22px] border border-orange-200 bg-orange-50 px-6 py-5 max-lg:px-5 max-sm:px-4 max-sm:py-4">
       <p class="text-[24px] leading-[1.55] text-gray-800 max-lg:text-[20px] max-sm:text-[18px] max-sm:leading-[1.7]">
-        <span data-id="pg055_n0005">Amosi alikuwa juu ya mti akichuma maembe.</span>
-        <span data-id="pg055_n0006">Mti wa maembe ulikuwa kando ya nyumba yao.</span>
+        <span data-id="pg055_n0005">Amosi alikuwa <strong data-vocabulary-term="juu">juu</strong> ya mti akichuma maembe.</span>
+        <span data-id="pg055_n0006">Mti wa maembe ulikuwa <strong data-vocabulary-term="kando">kando</strong> ya nyumba yao.</span>
         <span data-id="pg055_n0007">Mti huo ulikuwa na maembe mengi sana.</span>
         <span data-id="pg055_n0008">Ulikuwa na maembe mabichi na yaliyoiva.</span>
         <span data-id="pg055_n0009">Amosi alichuma maembe yaliyoiva na kuyadondosha chini.</span>
-        <span data-id="pg055_n0010">Lulu na Kiba walimsaidia kuokota maembe na kuyatia ndani ya ndoo.</span>
-        <span data-id="pg055_n0011">Walipomaliza kuokota maembe yaliyokuwa chini ya mti, waliingia nayo ndani.</span>
+        <span data-id="pg055_n0010">Lulu na Kiba walimsaidia kuokota maembe na kuyatia <strong data-vocabulary-term="ndani">ndani</strong> ya ndoo.</span>
+        <span data-id="pg055_n0011">Walipomaliza kuokota maembe yaliyokuwa <strong data-vocabulary-term="chini">chini</strong> ya mti, waliingia nayo <strong data-vocabulary-term="ndani">ndani</strong>.</span>
         <span data-id="pg055_n0012">Walipofika ndani, waliyaosha na kuyapanga ndani ya jokofu.</span>
       </p>
     </div>
@@ -71,6 +77,28 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = {
+          pg055_n0005: ["juu"],
+          pg055_n0006: ["kando"],
+          pg055_n0010: ["ndani"],
+          pg055_n0011: ["chini", "ndani"]
+        };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg082_sec001" />
-    <meta name="page-section-id" content="156" />
+    <meta name="page-section-id" content="143" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg082_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -35,11 +41,11 @@
 
     <div class="max-w-4xl font-serif text-[18px] leading-[1.65] max-lg:text-[17px] max-sm:text-[16px] max-sm:leading-[1.7]">
       <p class="text-left">
-        <span data-id="pg082_n0009">Watu wote katika familia hupaswa kutunza mazingira.</span>
-        <span data-id="pg082_n0010">Tukitunza mazingira yetu tutapata faida nyingi.</span>
-        <span data-id="pg082_n0011">Tutapata hewa safi, tutaepuka maradhi na tutakuwa na afya bora.</span>
+        <span data-id="pg082_n0009">Watu wote katika familia hupaswa kutunza <strong data-vocabulary-term="mazingira">mazingira</strong>.</span>
+        <span data-id="pg082_n0010">Tukitunza mazingira yetu tutapata <strong data-vocabulary-term="faida">faida</strong> nyingi.</span>
+        <span data-id="pg082_n0011">Tutapata hewa safi, tutaepuka <strong data-vocabulary-term="maradhi">maradhi</strong> na tutakuwa na afya bora.</span>
         <span data-id="pg082_n0012">Miti hutupatia mbao, matunda, kivuli na mvua.</span>
-        <span data-id="pg082_n0013">Vilevile, miti huzuia mmomonyoko wa udongo.</span>
+        <span data-id="pg082_n0013">Vilevile, miti huzuia <strong data-vocabulary-term="mmomonyoko">mmomonyoko</strong> wa udongo.</span>
         <span data-id="pg082_n0014">Tuache tabia ya kutupa takataka ovyo kwa kuwa zinachafua mazingira.</span>
       </p>
     </div>
@@ -52,6 +58,28 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = {
+          pg082_n0009: ["mazingira"],
+          pg082_n0010: ["faida"],
+          pg082_n0011: ["maradhi"],
+          pg082_n0013: ["mmomonyoko"]
+        };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

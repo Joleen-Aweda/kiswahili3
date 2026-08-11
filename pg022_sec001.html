@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg022_sec001" />
-    <meta name="page-section-id" content="40" />
+    <meta name="page-section-id" content="37" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg022_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -50,7 +56,7 @@
     <h3 data-id="pg022_n0018" class="mb-4 font-extrabold text-slate-900 text-4xl leading-tight max-lg:text-3xl max-sm:text-2xl">Basi la Lipayo</h3>
 
     <p class="max-w-5xl font-medium leading-[1.7] text-slate-800 text-[1.1rem] max-lg:max-w-full max-lg:text-[1.05rem] max-sm:text-[1rem] max-sm:leading-[1.75]">
-      <span data-id="pg022_n0020">Sisi tunaishi katika kijiji cha Dingalo.</span><span> </span><span data-id="pg022_n0021">Hapa kijijini basi huondoka na kurudi kila siku.</span><span> </span><span data-id="pg022_n0022">Basi hilo linaitwa Lipayo.</span><span> </span><span data-id="pg022_n0023">Lipayo huanza safari zake kila siku alfajiri.</span><span> </span><span data-id="pg022_n0024">Wasafiri hulisubiri basi kituoni.</span><span> </span><span data-id="pg022_n0025">Likikaribia kituoni, hupiga honi kwa nguvu.</span><span> </span><span data-id="pg022_n0026">Wale wanaochelewa hukimbia ili kuliwahi.</span>
+      <span data-id="pg022_n0020">Sisi tunaishi katika kijiji cha Dingalo.</span><span> </span><span data-id="pg022_n0021">Hapa kijijini basi huondoka na kurudi kila siku.</span><span> </span><span data-id="pg022_n0022">Basi hilo linaitwa Lipayo.</span><span> </span><span data-id="pg022_n0023">Lipayo huanza safari zake kila siku alfajiri.</span><span> </span><span data-id="pg022_n0024">Wasafiri hulisubiri basi kituoni.</span><span> </span><span data-id="pg022_n0025">Likikaribia kituoni, hupiga <strong data-vocabulary-term>honi</strong> kwa nguvu.</span><span> </span><span data-id="pg022_n0026">Wale wanaochelewa hukimbia ili kuliwahi.</span>
     </p>
   </section>
 </div>
@@ -61,6 +67,46 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        let scheduled = false;
+
+        const applyVocabularyWeight = () => {
+          scheduled = false;
+          const element = document.querySelector('[data-id="pg022_n0025"]');
+          if (!element || element.querySelector('strong[data-vocabulary-term]')) return;
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          let textNode;
+          while ((textNode = walker.nextNode())) {
+            const index = textNode.nodeValue.indexOf('honi');
+            if (index < 0) continue;
+            const matched = textNode.splitText(index);
+            matched.splitText(4);
+            const strong = document.createElement('strong');
+            strong.dataset.vocabularyTerm = 'true';
+            strong.textContent = 'honi';
+            matched.replaceWith(strong);
+            return;
+          }
+        };
+
+        const schedule = () => {
+          if (scheduled) return;
+          scheduled = true;
+          requestAnimationFrame(applyVocabularyWeight);
+        };
+
+        const content = document.getElementById('content');
+        if (content) {
+          new MutationObserver(schedule).observe(content, {
+            childList: true,
+            characterData: true,
+            subtree: true
+          });
+        }
+        schedule();
+      })();
+    </script>
 </body>
 
 </html>

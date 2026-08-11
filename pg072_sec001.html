@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg072_sec001" />
-    <meta name="page-section-id" content="134" />
+    <meta name="page-section-id" content="123" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg072_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -22,7 +28,7 @@
      
 
     <div class="mt-6 text-left text-[1.1rem] leading-10 text-zinc-800 max-lg:text-lg max-lg:leading-9 max-sm:mt-4 max-sm:text-base max-sm:leading-8" aria-label="story paragraph">
-      <span data-id="pg072_n0004">Bibi alifurahi sana.</span> <span data-id="pg072_n0005">Akajibu salamu na kumpa kikapu, kisha wakaendelea na safari.</span> <span data-id="pg072_n0006">Walipofika njiapanda Fikiri akamwambia bibi, &#x201c;Mimi ninaelekea barabara iendayo kulia.&#x201d;</span> <span data-id="pg072_n0007">Bibi akamwambia Fikiri, &#x201c;Asante sana mjukuu wangu.</span> <span data-id="pg072_n0008">Mimi ninaelekea barabara iendayo kushoto.&#x201d;</span> <span data-id="pg072_n0009">Bibi alichukua kikapu chake na kumshukuru Fikiri.</span> <span data-id="pg072_n0010">Kisha kila mmoja aliendelea na safari yake.</span>
+      <span data-id="pg072_n0004">Bibi alifurahi sana.</span> <span data-id="pg072_n0005">Akajibu salamu na kumpa kikapu, kisha wakaendelea na safari.</span> <span data-id="pg072_n0006">Walipofika <strong data-vocabulary-term="njiapanda">njiapanda</strong> Fikiri akamwambia bibi, &#x201c;Mimi ninaelekea barabara iendayo kulia.&#x201d;</span> <span data-id="pg072_n0007">Bibi akamwambia Fikiri, &#x201c;Asante sana mjukuu wangu.</span> <span data-id="pg072_n0008">Mimi ninaelekea barabara iendayo kushoto.&#x201d;</span> <span data-id="pg072_n0009">Bibi alichukua kikapu chake na kumshukuru Fikiri.</span> <span data-id="pg072_n0010">Kisha kila mmoja aliendelea na safari yake.</span>
     </div>
   </div>
 </div></section></div>
@@ -33,6 +39,18 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const restoreVocabularyEmphasis = () => {
+          const element = document.querySelector('[data-id="pg072_n0006"]');
+          if (!element || element.querySelector('[data-vocabulary-term]')) return;
+          element.innerHTML = element.textContent.replace('njiapanda', '<strong data-vocabulary-term="njiapanda">njiapanda</strong>');
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>

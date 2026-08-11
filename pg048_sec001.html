@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
     <meta name="title-id" content="pg048_sec001" />
-    <meta name="page-section-id" content="88" />
+    <meta name="page-section-id" content="82" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <style>
+      [data-section-id="pg048_sec001"] strong[data-vocabulary-term] {
+        color: #050505 !important;
+        font-weight: 900 !important;
+      }
+    </style>
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
@@ -60,7 +66,7 @@
 
     <div class="relative z-10 mb-6">
       <div data-id="pg048_n0025" class="mb-2 text-4xl font-extrabold text-gray-900 max-lg:text-3xl max-sm:text-2xl">Kituo cha afya</div>
-      <p class="text-left text-2xl leading-[1.9] text-gray-800 max-lg:text-xl max-sm:text-lg"><span data-id="pg048_n0027">Mimi ninaitwa Luka.</span> <span data-id="pg048_n0028">Kaka yangu anaitwa Kizenga.</span> <span data-id="pg048_n0029">Tunaishi katika Kijiji cha Kwale.</span> <span data-id="pg048_n0030">Mbele ya nyumba yetu kuna kituo cha afya.</span> <span data-id="pg048_n0031">Siku moja niliugua mafua makali na kikohozi.</span> <span data-id="pg048_n0032">Baba aliniuliza, &#x201c;Umeanza lini kukohoa?&#x201d;</span> <span data-id="pg048_n0033">Nilimjibu, &#x201c;Nilianza kukohoa tangu jana jioni.&#x201d;</span> <span data-id="pg048_n0034">Baba alimwambia kaka, &#x201c;Kizenga mpeleke Luka kwenye kituo cha afya akatibiwe.&#x201d;</span> <span data-id="pg048_n0035">Hata hivyo, kaka aliponiona alishangaa akasema, &#x201c;Lo! Kumbe unaumwa sana?</span> <span data-id="pg048_n0036">Pole sana mdogo wangu.</span> <span data-id="pg048_n0037">Twende kwenye kituo cha afya ukatibiwe.&#x201d;</span></p>
+      <p class="text-left text-2xl leading-[1.9] text-gray-800 max-lg:text-xl max-sm:text-lg"><span data-id="pg048_n0027">Mimi ninaitwa Luka.</span> <span data-id="pg048_n0028">Kaka yangu anaitwa Kizenga.</span> <span data-id="pg048_n0029">Tunaishi katika Kijiji cha Kwale.</span> <span data-id="pg048_n0030">Mbele ya nyumba yetu kuna kituo cha <strong data-vocabulary-term="afya">afya</strong>.</span> <span data-id="pg048_n0031">Siku moja niliugua mafua makali na kikohozi.</span> <span data-id="pg048_n0032">Baba aliniuliza, &#x201c;Umeanza lini kukohoa?&#x201d;</span> <span data-id="pg048_n0033">Nilimjibu, &#x201c;Nilianza kukohoa tangu jana jioni.&#x201d;</span> <span data-id="pg048_n0034">Baba alimwambia kaka, &#x201c;Kizenga mpeleke Luka kwenye kituo cha afya akatibiwe.&#x201d;</span> <span data-id="pg048_n0035">Hata hivyo, kaka aliponiona ali<strong data-vocabulary-term="shangaa">shangaa</strong> akasema, &#x201c;Lo! Kumbe unaumwa sana?</span> <span data-id="pg048_n0036">Pole sana mdogo wangu.</span> <span data-id="pg048_n0037">Twende kwenye kituo cha afya ukatibiwe.&#x201d;</span></p>
     </div>
 
     <div class="relative z-10 mt-10 flex items-end justify-between gap-4 border-t border-gray-200 pt-4 text-sm text-gray-700 max-sm:flex-col max-sm:items-start">
@@ -76,6 +82,23 @@
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const vocabulary = { pg048_n0030: ["afya"], pg048_n0035: ["shangaa"] };
+        const restoreVocabularyEmphasis = () => {
+          for (const [id, words] of Object.entries(vocabulary)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
+            let html = element.textContent;
+            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
+            element.innerHTML = html;
+          }
+        };
+        const observer = new MutationObserver(restoreVocabularyEmphasis);
+        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
+        restoreVocabularyEmphasis();
+      })();
+    </script>
 </body>
 
 </html>
