@@ -1,0 +1,118 @@
+.book-fikiri-block {
+  position: relative;
+  z-index: 10;
+  margin: 1.35rem auto 1.65rem;
+  width: 100%;
+}
+
+.book-fikiri-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 0.55rem 0.8rem;
+}
+
+.book-fikiri-icon {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  flex: 0 0 4rem;
+  object-fit: contain;
+}
+
+.book-fikiri-heading [data-id] {
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #293f98 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 1.65rem !important;
+  font-style: italic !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+}
+
+.book-fikiri-prompt {
+  position: relative !important;
+  inset: auto !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0.55rem 0.8rem !important;
+  border: 2px solid #ed3c96 !important;
+  border-radius: 0.8rem !important;
+  background: #fde2ed !important;
+  box-shadow: none !important;
+  color: #252525 !important;
+  transform: none !important;
+}
+
+.book-fikiri-prompt::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  pointer-events: none;
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at 5px 0, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) top left / 10px 6px repeat-x,
+    radial-gradient(circle at 5px 6px, transparent 3.5px, #ed3c96 4px 4.8px, transparent 5.2px) bottom left / 10px 6px repeat-x;
+}
+
+.book-fikiri-prompt,
+.book-fikiri-prompt * {
+  text-align: left !important;
+}
+
+.book-fikiri-prompt [data-id],
+.book-fikiri-prompt p,
+.book-fikiri-prompt div,
+.book-fikiri-prompt li {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  color: #252525 !important;
+  font-size: 1.35rem !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+}
+
+.book-fikiri-prompt ol,
+.book-fikiri-prompt ul {
+  margin: 0 !important;
+  padding-left: 1.7rem !important;
+}
+
+@media (max-width: 640px) {
+  .book-fikiri-block {
+    margin: 1rem auto 1.25rem;
+  }
+
+  .book-fikiri-heading {
+    gap: 0.55rem;
+    margin-left: 0.25rem;
+  }
+
+  .book-fikiri-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    flex-basis: 3.5rem;
+  }
+
+  .book-fikiri-heading [data-id] {
+    font-size: 1.3rem !important;
+  }
+
+  .book-fikiri-prompt {
+    padding: 0.5rem 0.65rem !important;
+  }
+
+  .book-fikiri-prompt [data-id],
+  .book-fikiri-prompt p,
+  .book-fikiri-prompt div,
+  .book-fikiri-prompt li {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+  }
+}
