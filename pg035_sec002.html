@@ -10,13 +10,14 @@
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
+    <link href="./assets/uniform-book-typography.css" rel="stylesheet">
 </head>
 
 <body class="min-h-screen flex items-center justify-center">
     <main class="w-full">
       <h1 class="sr-only" id="page-heading">Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</h1>
       <div class="container mx-auto max-w-5xl bg-[#f8f6ef] rounded-[2rem] border-2 border-orange-400 px-10 max-lg:px-8 max-sm:px-4 pt-8 pb-10 opacity-0" id="content">
-  <section data-section-type="activity_fill_in_the_blank" data-section-id="pg035_sec002" class="max-w-4xl mx-auto font-serif text-[#2c2a2a]">
+  <section data-section-type="text_only" data-section-id="pg035_sec002" class="max-w-4xl mx-auto font-serif text-[#2c2a2a]">
     <div class="mb-5 text-left text-[1.55rem] leading-[1.35] font-semibold max-lg:text-[1.35rem] max-sm:text-[0.92rem]">
       <span data-id="pg035_n0087">K.</span>
       <span data-id="pg035_n0088">Andika kinyume cha maneno yaliyokozwa wino katika sentensi hizi.</span>
@@ -24,33 +25,61 @@
 
     <div class="space-y-3 pl-8 max-lg:pl-6 max-sm:pl-2 text-[1.1rem] leading-[1.8] max-lg:text-[1rem] max-sm:text-[0.82rem]">
       <p class="text-left">
-        <span data-id="pg035_n0089" class="fitb-sentence">(i) Baba alipanda kwenye gari [[blank:item-1]].</span>
+        <span data-id="pg035_n0089">(i) Baba alipanda kwenye gari <strong>dogo</strong>.</span>
       </p>
       <p class="text-left">
-        <span data-id="pg035_n0090" class="fitb-sentence">(ii) Limbi anasoma shule iliyopo [[blank:item-2]].</span>
+        <span data-id="pg035_n0090">(ii) Limbi anasoma shule iliyopo <strong>mbali</strong>.</span>
       </p>
       <p class="text-left">
-        <span data-id="pg035_n0091" class="fitb-sentence">(iii) Kitanda changu ni kifupi [[blank:item-3]].</span>
+        <span data-id="pg035_n0091">(iii) Kitanda changu ni <strong>kifupi</strong>.</span>
       </p>
       <p class="text-left">
-        <span data-id="pg035_n0092" class="fitb-sentence">(iv) Wavuvi walivua samaki wakubwa [[blank:item-4]].</span>
+        <span data-id="pg035_n0092">(iv) Wavuvi walivua samaki <strong>wakubwa</strong>.</span>
       </p>
       <p class="text-left">
-        <span data-id="pg035_n0093" class="fitb-sentence">(v) Bibi alivuna mahindi machache [[blank:item-5]].</span>
+        <span data-id="pg035_n0093">(v) Bibi alivuna mahindi <strong>machache</strong>.</span>
       </p>
     </div>
   </section>
 </div>
     </main>
 
-    <script type="text/javascript">
-        window.correctAnswers = JSON.parse('{"item-1":"kubwa","item-2":"karibu"}');
-    </script>
     <div class="relative z-50" id="interface-container"></div>
     <div class="relative z-50" id="nav-container"></div>
     <script src="./assets/offline-preloader.js"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/base.bundle.local.js"></script>
+    <script>
+      (() => {
+        const targets = {
+          pg035_n0089: ['(i) Baba alipanda kwenye gari dogo.', 'dogo'],
+          pg035_n0090: ['(ii) Limbi anasoma shule iliyopo mbali.', 'mbali'],
+          pg035_n0091: ['(iii) Kitanda changu ni kifupi.', 'kifupi'],
+          pg035_n0092: ['(iv) Wavuvi walivua samaki wakubwa.', 'wakubwa'],
+          pg035_n0093: ['(v) Bibi alivuna mahindi machache.', 'machache']
+        };
+        const applyBold = () => {
+          for (const [id, [text, word]] of Object.entries(targets)) {
+            const element = document.querySelector(`[data-id="${id}"]`);
+            if (!element || (element.textContent === text && element.querySelector('strong'))) continue;
+            const index = text.indexOf(word);
+            const strong = document.createElement('strong');
+            strong.className = 'font-extrabold text-neutral-950';
+            strong.textContent = word;
+            element.replaceChildren(
+              document.createTextNode(text.slice(0, index)),
+              strong,
+              document.createTextNode(text.slice(index + word.length))
+            );
+          }
+        };
+        applyBold();
+        new MutationObserver(applyBold).observe(document.getElementById('content'), {
+          childList: true,
+          subtree: true
+        });
+      })();
+    </script>
 </body>
 
 </html>

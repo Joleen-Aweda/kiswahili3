@@ -1,0 +1,23 @@
+/*
+ * Shared textbook typography.
+ * Page 39 section 1 is the visual reference: 24px desktop, 21px tablet,
+ * and 16px phone. Introductory pages 1–5 intentionally keep their bespoke
+ * certificate, contents, and signature layouts and do not load this file.
+ */
+#content [data-id]:not(img):not(svg):not(source) {
+  font-size: 24px !important;
+  line-height: 1.55 !important;
+}
+
+@media (max-width: 1024px) {
+  #content [data-id]:not(img):not(svg):not(source) {
+    font-size: 21px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  #content [data-id]:not(img):not(svg):not(source) {
+    font-size: 16px !important;
+    line-height: 1.65 !important;
+  }
+}
