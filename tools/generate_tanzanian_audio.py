@@ -132,6 +132,7 @@ def spoken_text(text_id: str, visible: str) -> str:
     text = re.sub(r"\bQR\b", "mrejesho wa haraka", text, flags=re.I)
     text = re.sub(r"\bHR\b", "nakala bora", text)
     text = re.sub(r"\bTRIAL\b", "majaribio", text, flags=re.I)
+    text = re.sub(r"\bToleo la Pili\b", "Toleo la pili", text)
     text = re.sub(r"\.indd\b", "", text, flags=re.I)
     text = re.sub(r"\[\[blank[^]]*\]\]", " nafasi wazi ", text, flags=re.I)
     text = re.sub(r"_{3,}|\.{4,}|…{2,}", " ", text, flags=re.I)
