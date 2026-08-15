@@ -6,8 +6,14 @@
 
     const phrase = element.dataset.boldPhrase;
     const text = element.textContent;
-    const start = text.indexOf(phrase);
-    if (start < 0) return;
+    const occurrence = Number(element.dataset.boldOccurrence || "1");
+    let start = -1;
+    let searchFrom = 0;
+    for (let index = 0; index < occurrence; index += 1) {
+      start = text.indexOf(phrase, searchFrom);
+      if (start < 0) return;
+      searchFrom = start + phrase.length;
+    }
 
     const strong = document.createElement("strong");
     strong.dataset.sourceBold = "true";
