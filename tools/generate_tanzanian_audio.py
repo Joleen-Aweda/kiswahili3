@@ -20,7 +20,7 @@ import edge_tts
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_LANGUAGE = "sw-TZ"
 TARGET_LANGUAGES = ("sw", "sw-TZ")
-VOICE = "sw-TZ-RehemaNeural"
+VOICE = "sw-TZ-DaudiNeural"
 
 ONES = (
     "sifuri", "moja", "mbili", "tatu", "nne", "tano", "sita", "saba",
@@ -94,7 +94,7 @@ def normalize_number_and_letter_markers(text: str) -> str:
     """Expand textbook list markers for natural Tanzanian Swahili narration."""
     text = re.sub(
         r"^\s*\(?([ivx]+)\)?[.)]?(?:\s+|$)",
-        lambda match: f"Namba {number_to_swahili(roman_to_integer(match.group(1)))}. ",
+        lambda match: f"{number_to_swahili(roman_to_integer(match.group(1)))}. ",
         text,
     )
     text = re.sub(
@@ -134,7 +134,13 @@ def spoken_text(text_id: str, visible: str) -> str:
     text = re.sub(r"\bTRIAL\b", "majaribio", text, flags=re.I)
     text = re.sub(r"\bToleo la Pili\b", "Toleo la pili", text)
     text = re.sub(r"\.indd\b", "", text, flags=re.I)
-    text = re.sub(r"\[\[blank[^]]*\]\]", " nafasi wazi ", text, flags=re.I)
+    # Answer blanks are visual-only and must remain silent in narration.
+    text = re.sub(r"\[\[blank[^]]*\]\]", " ", text, flags=re.I)
+
+    # Spoken expansions only; the source HTML and localization text stay intact.
+    text = re.sub(r"\bDkt\.\s*", "Doctor ", text, flags=re.I)
+    text = re.sub(r"\bBw\.\s*", "Bwana ", text, flags=re.I)
+    text = re.sub(r"\bBi\.\s*", "Bibi ", text, flags=re.I)
     text = re.sub(r"_{3,}|\.{4,}|…{2,}", " ", text, flags=re.I)
     text = normalize_number_and_letter_markers(text)
 
@@ -193,8 +199,13 @@ def load_jobs() -> tuple[dict[str, list[Path]], dict[str, str]]:
     source_root = ROOT / "content" / "i18n" / SOURCE_LANGUAGE
     texts = json.loads((source_root / "texts.json").read_text(encoding="utf-8"))
     mappings = json.loads((source_root / "audios.json").read_text(encoding="utf-8"))
+    mappings = {
+        text_id: filename
+        for text_id, filename in mappings.items()
+        if spoken_text(text_id, texts.get(text_id, ""))
+    }
     for text_id, visible in texts.items():
-        if str(visible).strip():
+        if spoken_text(text_id, visible):
             mappings.setdefault(text_id, f"{text_id}.mp3")
 
     for language in TARGET_LANGUAGES:
@@ -243,7 +254,7 @@ async def run(args: argparse.Namespace) -> None:
             print(destinations[0].name, "=>", speech)
         return
 
-    cache_root = Path(tempfile.mkdtemp(prefix="kiswahili-rehema-"))
+    cache_root = Path(tempfile.mkdtemp(prefix="kiswahili-daudi-"))
     semaphore = asyncio.Semaphore(args.workers)
     failures: list[tuple[str, str]] = []
     completed = 0
