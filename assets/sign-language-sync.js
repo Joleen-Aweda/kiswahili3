@@ -18,5 +18,10 @@
   button.type = 'button'; button.textContent = 'Lugha ya ishara'; button.setAttribute('aria-label', 'Lugha ya ishara');
   button.style.cssText = 'position:fixed;right:1rem;bottom:1rem;z-index:61;padding:.65rem .9rem;border-radius:.55rem;background:#146c43;color:#fff;border:0;font:inherit';
   button.onclick = show;
-  document.addEventListener('DOMContentLoaded', () => document.body.append(button));
+  const mountButton = () => document.body.append(button);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountButton, { once: true });
+  } else {
+    mountButton();
+  }
 })();
