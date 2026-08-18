@@ -1,63 +1,22 @@
 (() => {
-  const nativePlay = HTMLMediaElement.prototype.play;
-  const nativePause = HTMLMediaElement.prototype.pause;
-  const activeReaderAudio = new Set();
+  const index = Number(document.querySelector('meta[name="page-section-id"]')?.content);
+  if (!Number.isFinite(index) || index < 1) return;
+  const source = `./content/i18n/sw/video/page_${String(index).padStart(3, '0')}.mp4`;
+  let panel;
 
-  const signVideos = () => Array.from(document.querySelectorAll(
-    'video[src*="/content/i18n/"][src*="/video/"]'
-  ));
-
-  const prepareVideo = (video) => {
-    video.muted = true;
-    video.defaultMuted = true;
-    video.volume = 0;
-    video.setAttribute('aria-label', 'Video ya lugha ya alama');
+  const show = () => {
+    if (panel) return;
+    panel = document.createElement('section');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Video ya lugha ya alama');
+    panel.style.cssText = 'position:fixed;right:1rem;bottom:5rem;width:min(20rem,calc(100vw - 2rem));z-index:60;background:#000;border-radius:.6rem;overflow:hidden;box-shadow:0 8px 24px #0008';
+    panel.innerHTML = `<button aria-label="Funga video ya lugha ya alama" style="float:right;position:absolute;right:.25rem;top:.25rem;z-index:1">×</button><video controls autoplay muted playsinline style="display:block;width:100%;max-height:45vh" src="${source}"></video>`;
+    document.body.append(panel);
+    panel.querySelector('button').onclick = () => { panel.remove(); panel = null; };
   };
-
-  const resumeSignVideo = () => {
-    if (activeReaderAudio.size === 0) return;
-    for (const video of signVideos()) {
-      prepareVideo(video);
-      const audio = activeReaderAudio.values().next().value;
-      if (audio && Number.isFinite(audio.playbackRate)) {
-        video.playbackRate = audio.playbackRate;
-      }
-      nativePlay.call(video).catch(() => {});
-    }
-  };
-
-  // The reader initializes its own TTS state immediately after audio starts.
-  // Retrying briefly lets the signer continue alongside it without preventing
-  // the learner from using the video controls independently.
-  const scheduleSignVideoResume = () => {
-    [0, 150, 450].forEach((delay) => window.setTimeout(resumeSignVideo, delay));
-  };
-
-  const stopAudio = (audio) => {
-    activeReaderAudio.delete(audio);
-  };
-
-  HTMLMediaElement.prototype.play = function (...args) {
-    const result = nativePlay.apply(this, args);
-    if (this instanceof HTMLAudioElement) {
-      activeReaderAudio.add(this);
-      this.addEventListener('ended', () => stopAudio(this), { once: true });
-      this.addEventListener('error', () => stopAudio(this), { once: true });
-      Promise.resolve(result).then(scheduleSignVideoResume).catch(() => {});
-    }
-    return result;
-  };
-
-  HTMLMediaElement.prototype.pause = function (...args) {
-    if (this instanceof HTMLAudioElement) stopAudio(this);
-    return nativePause.apply(this, args);
-  };
-
-  const observer = new MutationObserver(() => {
-    for (const video of signVideos()) prepareVideo(video);
-    scheduleSignVideoResume();
-  });
-
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-  window.addEventListener('pagehide', () => observer.disconnect(), { once: true });
+  const button = document.createElement('button');
+  button.type = 'button'; button.textContent = 'Lugha ya ishara'; button.setAttribute('aria-label', 'Lugha ya ishara');
+  button.style.cssText = 'position:fixed;right:1rem;bottom:1rem;z-index:61;padding:.65rem .9rem;border-radius:.55rem;background:#146c43;color:#fff;border:0;font:inherit';
+  button.onclick = show;
+  document.addEventListener('DOMContentLoaded', () => document.body.append(button));
 })();
