@@ -831,7 +831,10 @@
         : []
     );
     if (!phrases.length) return;
-    if (element.querySelectorAll("strong[data-source-bold]").length === phrases.length) return;
+    const existingEmphasis = element.querySelectorAll(
+      "strong[data-source-bold], strong[data-vocabulary-term]"
+    );
+    if (existingEmphasis.length === phrases.length) return;
 
     const text = element.textContent;
     const ranges = phrases.map((entry) => {
