@@ -5,8 +5,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</title>
-    <meta name="title-id" content="pg001_sec001" />
+    <meta name="title-id" content="pg000_sec001" />
     <meta name="page-section-id" content="1" />
+    <meta name="sign-video-index" content="none" />
     <link href="./content/tailwind_output.css" rel="stylesheet">
     <link href="./assets/libs/fontawesome/css/all.min.css" rel="stylesheet">
     <link href="./assets/fonts.css" rel="stylesheet">
@@ -85,6 +86,12 @@
         white-space: nowrap;
         border: 0;
       }
+      .original-cover {
+        display: block;
+        width: min(100%, 1116px);
+        height: auto;
+        margin: 0 auto;
+      }
       @media (max-width: 480px) {
         .cover-title-block { width: 94vw; margin-bottom: 22px; }
         .cover-ornament { margin-top: 18px; margin-bottom: 18px; }
@@ -99,37 +106,17 @@
 <body class="min-h-screen flex items-center justify-center">
     <main class="w-full">
       <div id="content" class="container mx-auto bg-white px-6 py-6 max-lg:px-5 max-sm:px-1 max-sm:py-1 opacity-0">
-        <section data-section-type="front_cover" data-section-id="pg001_sec001" class="bg-white">
-          <header class="cover-title-block">
-            <h1 data-id="pg001_n0002" class="cover-book-title">Kiswahili</h1>
-            <div class="cover-ornament" aria-hidden="true"><span class="cover-ornament-mark">⚜</span></div>
-            <h2 data-id="pg001_n0004" class="cover-student-book">Kitabu cha Mwanafunzi</h2>
-            <h3 data-id="pg001_n0005" class="cover-grade">Darasa la Tatu</h3>
-          </header>
-          <div class="certificate-page">
-            <img
-              class="certificate-original"
-              src="images/pg001_certificate.png"
-              alt="Cheti cha Ithibati cha Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu, Na. 1117"
-              width="554"
-              height="818"
-            >
-            <div class="certificate-accessible-text">
-              <span data-id="pg001_n0007">JAMHURI YA MUUNGANO WA TANZANIA</span>
-              <span data-id="pg001_n0008">WIZARA YA ELIMU, SAYANSI</span>
-              <span data-id="pg001_n0009">NA TEKNOLOJIA</span>
-              <span data-id="pg001_n0010">Cheti cha Ithibati</span>
-              <span data-id="pg001_n0011">Na. 1117</span>
-              <span data-id="pg001_n0012">Jina la Chapisho: Kiswahili Kitabu cha Mwanafunzi Darasa la Tatu</span>
-              <span data-id="pg001_n0013">Mchapishaji: Taasisi ya Elimu Tanzania</span>
-              <span data-id="pg001_n0014">Mwandishi: Taasisi ya Elimu Tanzania</span>
-              <span data-id="pg001_n0015">ISBN: 978-9987-09-877-4</span>
-              <span data-id="pg001_n0016">Kitabu hiki kimeidhinishwa na Wizara ya Elimu, Sayansi na Teknolojia tarehe 23 Oktoba, 2023 kuwa Kitabu cha Kiada kwa ajili ya Mwanafunzi wa Darasa la Tatu katika Ngazi ya Elimu ya Msingi nchini Tanzania kulingana na Muhtasari wa Mwaka 2023.</span>
-              <span data-id="pg001_n0017">Dkt. Lyabwene M. Mtahabwa</span>
-              <span data-id="pg001_n0018">Kamishna wa Elimu</span>
-              <span data-id="pg001_n0019">Taasisi ya Elimu Tanzania</span>
-            </div>
-            <div class="certificate-publisher">Taasisi ya Elimu Tanzania</div>
+        <section data-section-type="front_cover" data-section-id="pg000_sec001" class="bg-white">
+          <img
+            class="original-cover"
+            data-id="pg000_im001"
+            src="images/kiswahili_front_cover.png"
+            alt="Jalada la kitabu cha Kiswahili, Kitabu cha Mwanafunzi, Darasa la Tatu. Wanafunzi wanatoka darasani wakiongozwa na mwalimu."
+            width="1387"
+            height="1969"
+          >
+          <div class="certificate-accessible-text">
+            <span data-id="pg000_gp001_tx001">Mwisho wa ukurasa wa jalada la mbele.</span>
           </div>
         </section>
       </div>
@@ -137,12 +124,12 @@
 
     <div class="relative z-50" id="interface-container"></div>
     <div class="relative z-50" id="nav-container"></div>
-    <script src="./assets/offline-preloader.js?v=3"></script>
+    <script src="./assets/offline-preloader.js?v=8"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/read-once.js?v=1"></script>
     <script src="./assets/base.bundle.local.js"></script>
   <script src="./assets/source-bold.js?v=3"></script>
-  <script src="./assets/sign-language-sync.js?v=2"></script>
+  <script src="./assets/sign-language-sync.js?v=9"></script>
 </body>
 
 </html>

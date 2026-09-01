@@ -5,9 +5,17 @@
     // The reader still works when storage is unavailable.
   }
 
-  const index = Number(document.querySelector('meta[name="page-section-id"]')?.content);
-  if (!Number.isFinite(index) || index < 1) return;
-  const source = `./content/i18n/sw/video/page_${String(index).padStart(3, '0')}.mp4`;
+  const readerIndex = Number(document.querySelector('meta[name="page-section-id"]')?.content);
+  if (!Number.isFinite(readerIndex) || readerIndex < 1) return;
+
+  // The newly inserted front cover has no sign-language video. Keep every
+  // existing page paired with the same video it used before the cover was
+  // added: reader page 2 uses page_001.mp4, page 3 uses page_002.mp4, etc.
+  const hasSignVideo = document.querySelector('meta[name="sign-video-index"]')?.content !== 'none';
+  const videoIndex = hasSignVideo ? readerIndex - 1 : 0;
+  const source = videoIndex > 0
+    ? `./content/i18n/sw/video/page_${String(videoIndex).padStart(3, '0')}.mp4`
+    : null;
   let panel;
   let activeTrigger;
 
@@ -26,6 +34,7 @@
   };
 
   const show = (trigger) => {
+    if (!source) return;
     if (panel) {
       close();
       return;
