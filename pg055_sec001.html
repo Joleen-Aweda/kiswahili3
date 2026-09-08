@@ -75,33 +75,11 @@
     </script>
     <div class="relative z-50" id="interface-container"></div>
     <div class="relative z-50" id="nav-container"></div>
-    <script src="./assets/offline-preloader.js?v=10"></script>
+    <script src="./assets/offline-preloader.js?v=11"></script>
     <script src="./assets/scorm.js"></script>
     <script src="./assets/read-once.js?v=1"></script>
     <script src="./assets/sign-language-sync.js?v=11"></script>
     <script src="./assets/base.bundle.local.js"></script>
-    <script>
-      (() => {
-        const vocabulary = {
-          pg055_n0005: ["juu"],
-          pg055_n0006: ["kando"],
-          pg055_n0010: ["ndani"],
-          pg055_n0011: ["chini", "ndani"]
-        };
-        const restoreVocabularyEmphasis = () => {
-          for (const [id, words] of Object.entries(vocabulary)) {
-            const element = document.querySelector(`[data-id="${id}"]`);
-            if (!element || element.querySelector("[data-vocabulary-term]")) continue;
-            let html = element.textContent;
-            for (const word of words) html = html.replace(word, `<strong data-vocabulary-term="${word}">${word}</strong>`);
-            element.innerHTML = html;
-          }
-        };
-        const observer = new MutationObserver(restoreVocabularyEmphasis);
-        observer.observe(document.getElementById("content"), { childList: true, subtree: true });
-        restoreVocabularyEmphasis();
-      })();
-    </script>
   <script src="./assets/source-bold.js?v=4"></script>
 
 </body>
