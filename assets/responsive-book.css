@@ -1,0 +1,76 @@
+/*
+ * Shared phone and tablet safeguards for the textbook reader.
+ * These rules preserve each page's design while preventing fixed-width content
+ * from forcing the viewport wider than the device.
+ */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  min-width: 0;
+}
+
+#content,
+#content [data-section-id],
+#content :where(section, article, div, figure, form, fieldset) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#content :where(img, svg, video, canvas, iframe, object, embed) {
+  max-width: 100%;
+  height: auto;
+}
+
+#content :where(p, h1, h2, h3, h4, h5, h6, li, label, span, a) {
+  overflow-wrap: anywhere;
+}
+
+#content :where(input, select, textarea, button) {
+  max-width: 100%;
+}
+
+#content table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+#content :where(button, input, select, textarea, [role="button"]) {
+  touch-action: manipulation;
+}
+
+@media (max-width: 1024px) {
+  #content.container {
+    padding-inline: clamp(1rem, 4vw, 3rem) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    align-items: flex-start !important;
+  }
+
+  #content.container {
+    padding-inline: 1rem !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  #content :where(button, input, select, textarea, [role="button"]) {
+    min-height: 44px;
+  }
+}
+
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}

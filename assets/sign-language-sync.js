@@ -8,12 +8,15 @@
   const readerIndex = Number(document.querySelector('meta[name="page-section-id"]')?.content);
   if (!Number.isFinite(readerIndex) || readerIndex < 1) return;
 
-  // The newly inserted front cover has no sign-language video. Keep every
-  // existing page paired with the same video it used before the cover was
-  // added: reader page 2 uses page_001.mp4, page 3 uses page_002.mp4, etc.
-  const hasSignVideo = document.querySelector('meta[name="sign-video-index"]')?.content !== 'none';
-  const videoIndex = hasSignVideo ? readerIndex - 1 : 0;
-  const source = videoIndex > 0
+  // Explicit indices support cover videos while the default offset preserves
+  // every existing page-to-video pairing after the front cover insertion.
+  const videoSetting = document.querySelector('meta[name="sign-video-index"]')?.content;
+  const videoIndex = videoSetting === 'none'
+    ? null
+    : videoSetting
+      ? Number(videoSetting)
+      : readerIndex - 1;
+  const source = Number.isInteger(videoIndex) && videoIndex >= 0
     ? `./content/i18n/sw/video/page_${String(videoIndex).padStart(3, '0')}.mp4`
     : null;
   let panel;
@@ -87,8 +90,9 @@
     panel = document.createElement('section');
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-label', 'Video ya lugha ya alama');
-    panel.style.cssText = 'position:fixed;right:1rem;bottom:5rem;width:min(20rem,calc(100vw - 2rem));z-index:60;background:#000;border-radius:.6rem;overflow:hidden;box-shadow:0 8px 24px #0008';
-    panel.innerHTML = `<div data-sign-drag-handle style="display:flex;align-items:center;justify-content:flex-end;min-height:2.25rem;padding:.25rem .35rem;background:#171717;color:#fff;cursor:move;touch-action:none;user-select:none" aria-label="Kishikio cha video ya lugha ya alama"><button data-sign-close aria-label="Funga video ya lugha ya alama" style="min-width:2rem;min-height:2rem;border:0;border-radius:.35rem;background:#333;color:#fff;font-size:1.3rem;line-height:1">×</button></div><video controls autoplay muted playsinline style="display:block;width:100%;max-height:45vh" src="${source}"></video>`;
+    panel.setAttribute('data-sign-language-panel', '');
+    panel.style.cssText = 'position:fixed;right:max(.5rem,env(safe-area-inset-right,0px));bottom:calc(5rem + env(safe-area-inset-bottom,0px));width:min(20rem,calc(100vw - 1rem));max-height:calc(100dvh - 5.5rem);z-index:60;background:#000;border-radius:.6rem;overflow:hidden;box-shadow:0 8px 24px #0008';
+    panel.innerHTML = `<div data-sign-drag-handle style="display:flex;align-items:center;justify-content:flex-end;min-height:2.25rem;padding:.25rem .35rem;background:#171717;color:#fff;cursor:move;touch-action:none;user-select:none" aria-label="Kishikio cha video ya lugha ya alama"><button data-sign-close aria-label="Funga video ya lugha ya alama" style="min-width:2rem;min-height:2rem;border:0;border-radius:.35rem;background:#333;color:#fff;font-size:1.3rem;line-height:1">×</button></div><video controls autoplay muted playsinline style="display:block;width:100%;height:auto;max-height:min(45vh,calc(100dvh - 8rem));object-fit:contain" src="${source}"></video>`;
     document.body.append(panel);
     panel.querySelector('[data-sign-close]').onclick = close;
     makeDraggable(panel);
@@ -115,6 +119,15 @@
   } else {
     openAutomatically();
   }
+
+  window.addEventListener('resize', () => {
+    if (!panel || !panel.style.left) return;
+    const rect = panel.getBoundingClientRect();
+    const maximumX = Math.max(0, window.innerWidth - panel.offsetWidth);
+    const maximumY = Math.max(0, window.innerHeight - panel.offsetHeight);
+    panel.style.left = `${clamp(rect.left, 0, maximumX)}px`;
+    panel.style.top = `${clamp(rect.top, 0, maximumY)}px`;
+  });
 
   window.addEventListener('pagehide', close, { once: true });
 })();
